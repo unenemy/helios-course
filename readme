@@ -1,1 +1,3 @@
 Course files
+L1
+E1. To use run: ./ex1.sh /etc/passwd 's/\([^:]*\)\(:[^:]*\)\{4\}:\([^:]*\).*/Home directory of \1=\3/'
