@@ -1,0 +1,3 @@
+7. cat my_table | sed 's/^.//'
+8. cat my_table | sed 's/.\(.$\)/\1/'
+9. sed 's/\([a-zA-Z]*\) \([a-zA-Z]*\)/\2 \1/'
