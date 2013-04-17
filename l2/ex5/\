@@ -1,0 +1,6 @@
+from=`who | grep $1 | head -1 | awk '{ print $3 " " $4 }'`
+if [ from!="" ]
+then
+  to=`date`
+  echo "user $1 is working from $from till $to"
+fi
