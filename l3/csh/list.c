@@ -17,6 +17,10 @@ struct list_t* list_init(int data){
     return ptr;
 }
 
+struct list_t* list_insert_rear(struct list_t *head, int data){
+    return list_insert_after(head, data, list_size(head)-1);
+}
+
 struct list_t* list_insert_front(struct list_t *head, int data){
     struct list_t *ptr = (struct list_t*)malloc(sizeof(struct list_t));
     if(NULL == ptr)

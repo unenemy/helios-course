@@ -15,4 +15,7 @@ void main(){
     list_insert_after(head, 11, 0);
     list_insert_after(head, 11, 4);
     list_print(head);
+
+    list_insert_rear(head, 150);
+    list_print(head);
 }
