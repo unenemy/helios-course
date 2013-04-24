@@ -5,17 +5,19 @@
 struct list_t* head=NULL;
 struct list_t* curr=NULL;
 void main(){
-    head = curr = list_init('A');
+    puts("init");
+    head = curr = list_init();
+    int a=1,b=2,c=3,x=5,d=12;
+    list_print(head);
+    list_insert_front(&head, &a);
+    list_insert_front(&head, &b);
     list_print(head);
 
-    head = list_insert_front(head, 2);
+    list_insert_after(head, &c, 0);
+    list_insert_after(head, &x, 0);
+    list_insert_after(head, &x, 4);
     list_print(head);
 
-    list_insert_after(head, 10, 0);
-    list_insert_after(head, 11, 0);
-    list_insert_after(head, 11, 4);
-    list_print(head);
-
-    list_insert_rear(head, 150);
+    list_insert_rear(head, &d);
     list_print(head);
 }
