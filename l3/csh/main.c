@@ -18,6 +18,20 @@ void main(){
     list_insert_after(head, &x, 4);
     list_print(head);
 
+    printf("%d is located at %d\n", d, search(head, &d));
+
     list_insert_rear(head, &d);
+    list_print(head);
+
+    printf("%d is located at %d\n", d, search(head, &d));
+
+    list_remove_front(&head);
+    list_remove_front(&head);
+    list_print(head);
+
+    list_remove_any(&head, &d);
+    list_print(head);
+
+    list_remove_rear(&head);
     list_print(head);
 }

@@ -79,3 +79,58 @@ void list_insert_after(struct list_t *head, int *data, int pos){
     head->next = ptr;
     return;
 }
+
+void list_remove_front(struct list_t* *head){
+    struct list_t *temp = (*head);
+    if(list_size(*head) > 1){
+        *head = temp->next;
+        free(temp);
+    } else {
+        (*head)->data = NULL;
+    }
+}
+
+void list_remove_rear(struct list_t* *head){
+    struct list_t *prev = NULL;
+    struct list_t *temp = *head;
+    while(temp != NULL && temp->next != NULL){
+        prev = temp;
+        temp = temp->next;
+    }
+    if(temp != NULL){
+        if(prev == NULL)
+            list_remove_front(head);
+        else{
+            prev->next = temp->next;
+            free(temp);
+        }
+    }
+}
+
+void list_remove_any(struct list_t* *head, int *data){
+    struct list_t *prev = NULL;
+    struct list_t *temp = *head;
+    while(temp != NULL && temp->data != NULL && temp->data != data){
+        prev = temp;
+        temp = temp->next;
+    }
+    if(temp != NULL){
+        if(prev == NULL)
+            list_remove_front(head);
+        else{
+            prev->next = temp->next;
+            free(temp);
+        }
+    }
+}
+
+int search(struct list_t *head, int *data){
+    int i = 0;
+    while(head != NULL){
+        if(head->data == data)
+            return i;
+        head = head->next;
+        i++;
+    }
+    return -1;
+}
