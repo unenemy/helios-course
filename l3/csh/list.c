@@ -34,19 +34,23 @@ void list_print(struct list_t *head){
     }
     printf("\nList with size = %d contains:\n", list_size(head));
     while(NULL != ptr && NULL != ptr->data){
-        printf("\t%d\t%d\n", i++, *(ptr->data));
+        printf("\t%d\t%p\n", i++, ptr->data);
         ptr = ptr->next;
-        if(i>10)break;
     }
     return;
 }
 
-void list_insert_rear(struct list_t *head, int *data){
-    list_insert_after(head, data, list_size(head)-1);
+void list_insert_rear(struct list_t* *head, void *data){
+    int size = list_size(*head);
+    if(size == 0){
+        list_insert_front(head, data);
+    } else {
+        list_insert_after(*head, data, size-1);
+    }
     return;
 }
 
-void list_insert_front(struct list_t* *head, int* data){
+void list_insert_front(struct list_t* *head, void* data){
     if((*head)->data == NULL){
         (*head)->data = data;
         return;
@@ -63,7 +67,7 @@ void list_insert_front(struct list_t* *head, int* data){
     return;
 }
 
-void list_insert_after(struct list_t *head, int *data, int pos){
+void list_insert_after(struct list_t *head, void *data, int pos){
     struct list_t *ptr = (struct list_t*)malloc(sizeof(struct list_t));
     if(NULL == ptr || pos < 0 || list_size(head) <= pos)
     {
@@ -107,7 +111,7 @@ void list_remove_rear(struct list_t* *head){
     }
 }
 
-void list_remove_any(struct list_t* *head, int *data){
+void list_remove_any(struct list_t* *head, void *data){
     struct list_t *prev = NULL;
     struct list_t *temp = *head;
     while(temp != NULL && temp->data != NULL && temp->data != data){
@@ -124,7 +128,7 @@ void list_remove_any(struct list_t* *head, int *data){
     }
 }
 
-int search(struct list_t *head, int *data){
+int search(struct list_t *head, void *data){
     int i = 0;
     while(head != NULL){
         if(head->data == data)
