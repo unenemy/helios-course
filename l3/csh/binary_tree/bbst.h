@@ -1,4 +1,4 @@
-//balanced binary tree with red-black algo
+//balanced binary tree with red-black algo spec
 enum bbst_node_color { RED, BLACK };
 
 typedef struct bbst_node_t {
@@ -21,3 +21,4 @@ typedef int (*compare_func)(void* left, void* right);
 void* bbst_lookup(bbst tree, void* key, compare_func compare);
 
 void bbst_insert(bbst tree, void* key, void* value, compare_func compare);
+void bbst_delete(bbst tree, void* key, compare_func compare);

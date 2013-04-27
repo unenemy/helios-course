@@ -32,18 +32,20 @@ int main()
 {
     int i;
     bbst tree = bbst_create();
-    for (i = 0; i < 10; i++) {
-        int x = rand() % 100;
-        int y = rand() % 100;
+    for (i = 0; i < 10000; i++) {
+        int x = i;
+        int y = i;
         bbst_insert(tree, (void*)x, (void*)y, compare_int);
-        printf("\ninsetring %d(%d)\n", x, y);
-        print_tree(tree->root);
+        /*printf("\ninsetring %d(%d)\n", x, y);*/
+        /*print_tree(tree->root);*/
     }
-    for (i = 0; i < 10; i++) {
-        int x = rand() % 100;
+    for (i = 0; i < 10000; i++) {
+        int x = i;
         bbst_delete(tree, (void*)x, compare_int);
-        printf("\nremoving %d\n", x);
-        print_tree(tree->root);
+        /*printf("\nremoving %d\n", x);*/
+        /*print_tree(tree->root);*/
     }
+    free(tree);
     return 0;
 }
+

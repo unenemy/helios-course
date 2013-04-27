@@ -19,6 +19,13 @@ static void insert_case2(bbst tree, node n);
 static void insert_case3(bbst tree, node n);
 static void insert_case4(bbst tree, node n);
 static void insert_case5(bbst tree, node n);
+static node maximum_node(node root);
+static void delete_case1(bbst tree, node n);
+static void delete_case2(bbst tree, node n);
+static void delete_case3(bbst tree, node n);
+static void delete_case4(bbst tree, node n);
+static void delete_case5(bbst tree, node n);
+static void delete_case6(bbst tree, node n);
 
 node grandparent(node n){
     assert(n != NULL);
@@ -202,5 +209,121 @@ void insert_case5(bbst tree, node n) {
     } else {
         assert(n == n->parent->right && n->parent == grandparent(n)->right);
         rotate_left(tree, grandparent(n));
+    }
+}
+
+void bbst_delete(bbst tree, void* key, compare_func compare) {
+    node child;
+    node n = lookup_node(tree, key, compare);
+    if (n == NULL) return;
+    if (n->left != NULL && n->right != NULL) {
+        /* find the biggest of the lower */
+        node predecessor = maximum_node(n->left);
+        n->key           = predecessor->key;
+        n->value         = predecessor->value;
+        n                = predecessor;
+    }
+
+    assert(n->left == NULL || n->right == NULL);
+    child = n->right == NULL ? n->left : n->right;
+    if (node_color(n) == BLACK) {
+        n->color = node_color(child);
+        delete_case1(tree, n);
+    }
+    replace_node(tree, n, child);
+    if (n->parent == NULL && child != NULL)
+        child->color = BLACK;
+    free(n);
+}
+
+static node maximum_node(node n) {
+    assert (n != NULL);
+    while (n->right != NULL) {
+        n = n->right;
+    }
+    return n;
+}
+
+/*deleting the root node - everything is ok*/
+void delete_case1(bbst tree, node n) {
+    if (n->parent == NULL)
+        return;
+    else
+        delete_case2(tree, n);
+}
+
+void delete_case2(bbst tree, node n) {
+    if (node_color(sibling(n)) == RED) {
+        n->parent->color = RED;
+        sibling(n)->color = BLACK;
+        if (n == n->parent->left)
+            rotate_left(tree, n->parent);
+        else
+            rotate_right(tree, n->parent);
+    }
+    delete_case3(tree, n);
+}
+
+void delete_case3(bbst tree, node n) {
+    if (node_color(n->parent) == BLACK &&
+        node_color(sibling(n)) == BLACK &&
+        node_color(sibling(n)->left) == BLACK &&
+        node_color(sibling(n)->right) == BLACK)
+    {
+        sibling(n)->color = RED;
+        delete_case1(tree, n->parent);
+    }
+    else
+        delete_case4(tree, n);
+}
+
+void delete_case4(bbst tree, node n) {
+    if (node_color(n->parent) == RED &&
+        node_color(sibling(n)) == BLACK &&
+        node_color(sibling(n)->left) == BLACK &&
+        node_color(sibling(n)->right) == BLACK)
+    {
+        sibling(n)->color = RED;
+        n->parent->color = BLACK;
+    }
+    else
+        delete_case5(tree, n);
+}
+
+void delete_case5(bbst tree, node n) {
+    if (n == n->parent->left &&
+        node_color(sibling(n)) == BLACK &&
+        node_color(sibling(n)->left) == RED &&
+        node_color(sibling(n)->right) == BLACK)
+    {
+        sibling(n)->color = RED;
+        sibling(n)->left->color = BLACK;
+        rotate_right(tree, sibling(n));
+    }
+    else if (n == n->parent->right &&
+             node_color(sibling(n)) == BLACK &&
+             node_color(sibling(n)->right) == RED &&
+             node_color(sibling(n)->left) == BLACK)
+    {
+        sibling(n)->color = RED;
+        sibling(n)->right->color = BLACK;
+        rotate_left(tree, sibling(n));
+    }
+    delete_case6(tree, n);
+}
+
+void delete_case6(bbst tree, node n) {
+    sibling(n)->color = node_color(n->parent);
+    n->parent->color = BLACK;
+    if (n == n->parent->left) {
+        assert (node_color(sibling(n)->right) == RED);
+        sibling(n)->right->color = BLACK;
+        rotate_left(tree, n->parent);
+    }
+    else
+    {
+        assert (node_color(sibling(n)->left) == RED);
+        sibling(n)->left->color = BLACK;
+        rotate_right(tree, n->parent);
     }
 }
