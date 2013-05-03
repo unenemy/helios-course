@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %title Blog
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    .container-fluid
+      %br
+      .navbar
+        .navbar-inner
+          %a.brand{:href => "#"} Blog
+          %ul.nav
+            %li
+              %a{:href => "#"} Home
+            %li
+              %a{:href => "#"} Link
+            %li
+              %a{:href => "#"} Link
+          %ul.nav.pull-right
+            - if current_user
+              %li
+                = link_to "My blog", user_posts_path(current_user)
+              %li.divider-vertical
+              %li
+                = link_to "Log out", destroy_user_session_path, :method => :delete
+            - else
+              %li
+                = link_to "Sign in", new_user_session_path
+              %li.divider-vertical
+              %li
+                = link_to "Sign up", new_user_registration_path
+
+      = yield

@@ -1,0 +1,20 @@
+= form_for @post, html: { class: "form-horizontal well" } do |f|
+  - if @post.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
+      %ul
+        - @post.errors.full_messages.each do |msg|
+          %li= msg
+  %fieldset
+    %legend Post
+    .control-group
+      %label.control-label{:for => "input01"} Title
+      .controls
+        = f.text_field :title, :class => "input-xlarge"
+    .control-group
+      %label.control-label{:for => "textarea"} Content
+      .controls
+        = f.text_area :content, :class => "input-xlarge", :rows => 3
+        -#%textarea#textarea.input-xlarge{:rows => "3"}
+    .form-actions
+      %button.btn.btn-primary{:type => "submit"} Save changes
